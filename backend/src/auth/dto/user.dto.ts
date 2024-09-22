@@ -1,5 +1,5 @@
 import { Post } from '../../../db/entities/post';
-import { IsString, IsUUID, IsNotEmpty } from 'class-validator';
+import { IsString, IsUUID, IsNotEmpty, IsOptional } from 'class-validator';
 import { OmitType } from '@nestjs/mapped-types';
 
 export class UserDto {
@@ -15,6 +15,7 @@ export class UserDto {
   @IsNotEmpty() // Ensures that the name is required and not empty
   name: string;
 
+  @IsOptional()
   posts: Post[];
 }
 export class SigninBodyDto extends OmitType(UserDto, ['name', 'posts'] as const) {}
