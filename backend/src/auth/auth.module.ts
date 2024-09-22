@@ -23,7 +23,7 @@ import { JwtModule } from '@nestjs/jwt';
     TypeOrmModule.forFeature([User, Post]),
     JwtModule.register({
       global: true,
-      secret: 'yash123',
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '24h' },
     }),
   ],

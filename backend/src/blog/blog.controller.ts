@@ -26,7 +26,7 @@ export class BlogController {
         return await this.blogService.getBlog(id.id);
     }
 
-    @Get('/bulk')
+    @Get()
     @UseGuards(AuthGuard)
     async getAllBlogs(){
         return await this.blogService.getAllBlogs();

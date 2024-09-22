@@ -54,12 +54,15 @@ export class BlogService {
         }
     }
 
-    async getAllBlogs(): Promise<Post[]> {
+    async getAllBlogs(): Promise<Post[]>{
         try {
-            console.log(`Attempting to fetch blogs`);
-            return await this.postRepository.find();
+            const blogs = await this.postRepository.find();
+            if(!blogs){
+                throw new NotFoundException(`Blogs not found`);
+            }
+            return blogs;
         } catch (error) {
-            return error.response;
+            return error.response
         }
     }
 
