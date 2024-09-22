@@ -1,29 +1,38 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { User } from './user';
 
 @Entity('posts')
 export class Post {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn({
+    name: 'id',
+    type: 'uuid',
+    default: ()=> 'gen_random_uuid()'
+  })
   readonly id: string;
 
   @Column({
     name: 'title',
     type: 'varchar',
   })
-  readonly title: string;
+  title: string;
 
   @Column({
     name: 'content',
     type: 'varchar',
   })
-  readonly content: string;
+  content: string;
 
   @Column({
     name: 'published',
     type: 'boolean',
+    default: false
   })
-  readonly published: string;
+  published: boolean;
 
-  @ManyToOne(() => User)
+  @Column()
+  readonly authorId: string;
+
+  @ManyToOne(() => User, user => user.posts)
+  @JoinColumn({ name: 'authorId', referencedColumnName: 'id' })
   user: User;
 }
