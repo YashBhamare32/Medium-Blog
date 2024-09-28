@@ -2,6 +2,7 @@ import React from "react";
 import { Quote } from "../components/Qoute";
 import { Auth } from "../components/Auth";
 
+
 export function Signup(){
     
     return(

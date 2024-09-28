@@ -1,5 +1,5 @@
 import { OmitType } from "@nestjs/mapped-types";
-import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
 
 export class CreateBlogDto{
     @IsString()
