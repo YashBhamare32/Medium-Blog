@@ -1,20 +1,32 @@
-import { OmitType } from "@nestjs/mapped-types";
-import { IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { OmitType } from '@nestjs/mapped-types';
+import {
+  IsBoolean,
+  IsDate,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
-export class CreateBlogDto{
-    @IsString()
-    @IsNotEmpty()
-    title: string;
+export class CreateBlogDto {
+  @IsString()
+  @IsNotEmpty()
+  title: string;
 
-    @IsString()
-    @IsNotEmpty()
-    content: string;
+  @IsString()
+  @IsNotEmpty()
+  content: string;
 
-    @IsBoolean()
-    published: boolean;
+  @IsBoolean()
+  published: boolean;
 }
 
-export class GetBlogDto{
-    @IsUUID()
-    id:string;
+export class GetBlogByIdDto {
+  @IsUUID()
+  id: string;
+}
+
+export class GetBlogByUserDto {
+  @IsUUID()
+  authorId: string;
 }

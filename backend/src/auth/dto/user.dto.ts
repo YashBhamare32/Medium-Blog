@@ -18,4 +18,7 @@ export class UserDto {
   @IsOptional()
   posts: Post[];
 }
-export class SigninBodyDto extends OmitType(UserDto, ['name', 'posts'] as const) {}
+export class SigninBodyDto extends OmitType(UserDto, [
+  'name',
+  'posts',
+] as const) {}

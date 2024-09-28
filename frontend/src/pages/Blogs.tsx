@@ -1,11 +1,10 @@
-import React from "react";
 import { BlogCard } from "../components/BlogCard";
 import { AppBar } from "../components/AppBar";
-import { useBlogs } from "../hooks";
+import { useBlogs } from "../hooks/UseBlogs-hook";
+import { Link } from 'react-router-dom';
 
 export const Blogs = () => {
     const { loading, blogs, authFailed } = useBlogs();
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -22,21 +21,22 @@ export const Blogs = () => {
     }
 
     return (
-        <div>
-            <AppBar />
-            <div className="flex justify-center">
-                <div className="max-w-xl">
-                    {blogs.map((blog: any) => (
-                        <BlogCard 
-                            key={blog.id}
-                            title={blog.title}
-                            content={blog.content}
-                            authorName={blog.user.name}
-                            publishedDate={blog.publishedDate.split("T")[0]} 
-                        />
-                    ))}
-                </div>
-            </div>
+      <div>
+        <AppBar />
+        <div className="flex flex-col items-center">
+          {blogs.map((blog: any) => (
+            <Link className="max-w-2xl w-full my-4" key={blog.id} to={`/blog/${blog.id}`}>
+              <BlogCard
+                title={blog.title}
+                content={blog.content}
+                authorName={blog.user.name}
+                publishedDate={blog.publishedDate.toString().split("T")[0]}
+              />
+            </Link>
+          ))}
         </div>
+
+
+      </div>
     );
 };

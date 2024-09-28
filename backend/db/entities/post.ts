@@ -6,7 +6,7 @@ export class Post {
   @PrimaryColumn({
     name: 'id',
     type: 'uuid',
-    default: ()=> 'gen_random_uuid()'
+    default: () => 'gen_random_uuid()',
   })
   readonly id: string;
 
@@ -25,17 +25,17 @@ export class Post {
   @Column({
     name: 'published',
     type: 'boolean',
-    default: false
+    default: false,
   })
   published: boolean;
 
   @Column()
   readonly authorId: string;
 
-  @Column()
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   publishedDate: Date;
 
-  @ManyToOne(() => User, user => user.posts)
+  @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn({ name: 'authorId', referencedColumnName: 'id' })
   user: User;
 }

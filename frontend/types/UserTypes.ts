@@ -1,4 +1,4 @@
-export type UserTypes ={ 
+export type UserType ={
     username: string;
     password: string;
     name: string;
@@ -15,4 +15,5 @@ export type PostType = {
     publishedDate: Date;
     published: Boolean;
     authorId: string;
+    user: UserType;
 }

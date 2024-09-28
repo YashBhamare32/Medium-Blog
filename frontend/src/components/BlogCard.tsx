@@ -1,4 +1,5 @@
-import React from "react"
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 interface BlogCardProps {
     authorName: string;
@@ -47,7 +48,69 @@ function Circle(){
     </div>
 }
 export function Avatar({name, size='small'}: {name : string, size?:'small'| 'big'}){
-    return <div className={`relative inline-flex items-center justify-center overflow-hidden bg-gray-100 rounded-full ${size === 'small' ? "w-6 h-6" : 'w-10 h-10'} dark:bg-gray-600`}>
-        <span className={`text-sm text-gray-600 ${size === 'small' ? 'text-xs' : 'text-md'} dark:text-gray-300`}>{name[0]}</span>
+    return <div className={`relative inline-flex items-center justify-center overflow-hidden bg-gray-100 rounded-full ${size === 'small' ? "w-6 h-6" : 'w-8 h-8'} dark:bg-gray-600`}>
+        <span className={`text-sm text-gray-600 ${size === 'small' ? 'text-xs' : 'text-md'} dark:text-gray-300`}>{name.toUpperCase()[0]}</span>
     </div>
+}
+
+export function AppbarUser({ username }) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(prev => !prev);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('#dropdownUserAvatarButton') && dropdownOpen) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownOpen]);
+
+  return (
+    <div className="relative">
+      <button
+        id="dropdownUserAvatarButton"
+        onClick={toggleDropdown}
+        className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+        type="button"
+      >
+        <span className="sr-only">Open user menu</span>
+        <Avatar name={username} size={'big'} />
+      </button>
+      {/*TODO: fix the navigation links*/}
+      {dropdownOpen && (
+        <div
+          id="dropdownAvatar"
+          className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+          style={{ right: 0,top:40 }} // Align dropdown to the right if needed
+        >
+          <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+            <div>{username}</div>
+          </div>
+          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
+            <li>
+              <a href={"/blogs"} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+            </li>
+            <li>
+              <a href={"/profile"} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+            </li>
+          </ul>
+          <div className="py-2">
+            {/*TODO: Implement a signout page*/}
+            <Link to={'/blogs'} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+              Sign out
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }

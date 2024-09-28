@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import Cookies from 'js-cookie';
+import { PostType } from '../../types/UserTypes';
 
 export const useBlogs = () => {
     const [loading, setLoading] = useState(true);
-    const [blogs, setBlogs] = useState([]);
+    const [blogs, setBlogs] = useState<PostType[]>();
     const [authFailed, setAuthFailed] = useState(false); // New state for auth failure
     const token = Cookies.get('token');
 
     useEffect(() => {
         if (!token) {
-            setAuthFailed(true); // If no token, set authFailed directly
+            setAuthFailed(true);
             setLoading(false);
             return;
         }

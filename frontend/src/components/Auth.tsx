@@ -1,58 +1,58 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LabelledInput } from "./Labelledinput";
-import { SigninType, UserTypes } from "../../types/UserTypes";
+import { SigninType, UserType } from "../../types/UserTypes";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useSnackbar } from 'notistack';  // Importing notistack
 
-function afterSignin(token: string) {
-    Cookies.set("token", token, {
+function afterSignin(token: string, authorName:string) {
+    console.log(token);
+    Cookies.set("token", token.split(' ')[0], {
+        expires: 7, // Cookie expires in 7 days
+        secure: true, // Only send cookie over HTTPS
+        sameSite: "Strict", // Prevent CSRF
+    });
+    Cookies.set("authorName", authorName, {
         expires: 7, // Cookie expires in 7 days
         secure: true, // Only send cookie over HTTPS
         sameSite: "Strict", // Prevent CSRF
     });
 }
 
-async function auth({ type, postInputs }: { type: 'signup' | 'signin'; postInputs: UserTypes | SigninType }) {
+async function auth({ type, postInputs }: { type: 'signup' | 'signin'; postInputs: UserType | SigninType }) {
     const url = `${BACKEND_URL}/api/v1/auth/${type}`;
     const res = await axios.post(url, postInputs);
     return res.data; // Return response data for further processing
 }
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
-    const [postInputs, setPostInputs] = useState<UserTypes>({
+    const [postInputs, setPostInputs] = useState<UserType>({
         name: "",
         username: "",
         password: ""
     });
 
     const navigate = useNavigate();
-    const { enqueueSnackbar } = useSnackbar(); // Access the notistack notification handler
 
     const handleAuth = async () => {
         try {
             const sanitizedInputs = type === "signin" 
-                ? { username: postInputs.username, password: postInputs.password } 
+                ? { username: postInputs.username, password: postInputs.password }
                 : postInputs;
             const data = await auth({ type, postInputs: sanitizedInputs });
 
             if (type === "signup") {
-                enqueueSnackbar('Signup successful! Please sign in.', { variant: 'success' }); // Show success notification
                 navigate("/signin"); // Navigate after signup
             } else {
-                afterSignin(data.token); // Assuming token is returned as part of the response
-                enqueueSnackbar('Signin successful! Redirecting to blogs...', { variant: 'success' }); // Show success notification
+                afterSignin(data, sanitizedInputs.username); // Assuming token is returned as part of the response
                 navigate("/blogs"); // Navigate after signin
             }
         } catch (error: any) {
             if (error.response && (error.response.status === 401 || error.response.status === 400)) {
-                enqueueSnackbar(error.response.data.message || 'Authentication failed. Please try again.', { variant: 'error' }); // Show error notification
                 console.error("Error during authentication:", error.response.data);
             } else {
                 console.error("Error during authentication:", error.message);
-                enqueueSnackbar('An unexpected error occurred. Please try again.', { variant: 'error' }); // Show error notification
             }
         }
     };
