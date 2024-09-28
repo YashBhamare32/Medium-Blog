@@ -32,6 +32,9 @@ export class Post {
   @Column()
   readonly authorId: string;
 
+  @Column()
+  publishedDate: Date;
+
   @ManyToOne(() => User, user => user.posts)
   @JoinColumn({ name: 'authorId', referencedColumnName: 'id' })
   user: User;

@@ -17,6 +17,7 @@ export class BlogService {
             title: postBody.title,
             content: postBody.content,
             published: postBody.published,
+            publishedDate: new Date(),
             authorId,
         };
          try {
@@ -56,10 +57,18 @@ export class BlogService {
 
     async getAllBlogs(): Promise<Post[]>{
         try {
-            const blogs = await this.postRepository.find();
+            const blogs = await this.postRepository.find({
+                relations: ['user'],
+                select:{
+                    user:{
+                        name:true
+                    }
+                }
+            });
             if(!blogs){
                 throw new NotFoundException(`Blogs not found`);
             }
+            console.log(blogs);
             return blogs;
         } catch (error) {
             return error.response

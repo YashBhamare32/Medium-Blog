@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../db/entities/user';
 import { Repository } from 'typeorm';
@@ -28,7 +28,7 @@ export class AuthService {
       return savedUser;
     } catch (err) {
       console.log(err.message);
-      throw new InternalServerErrorException('Error creating user: ' + err.message);
+      throw new BadRequestException('Error creating user: ' + err.message);
     }
   }
   
@@ -43,7 +43,7 @@ export class AuthService {
       return this.jwtService.signAsync(payload);
     } catch (err) {
       console.log(err.message);
-      throw new InternalServerErrorException('Error creating user: ' + err.message);
+      throw new UnauthorizedException('Error creating user: ' + err.message);
     }
   }
 

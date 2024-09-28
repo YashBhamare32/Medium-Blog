@@ -23,7 +23,7 @@ import { Post } from 'db/entities/post';
     TypeOrmModule.forFeature([Post, User]),
     JwtModule.register({
       global: true,
-      secret: process.env.JWT_SECRET,
+      secret: 'yash123',
       signOptions: { expiresIn: '24h' },
     }),
   ]
