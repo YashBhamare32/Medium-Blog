@@ -12,7 +12,7 @@ import { Post } from 'db/entities/post';
   imports:[
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: "postgres://avnadmin:AVNS_B4EwQZ2F07i8hUEr830@pg-3fb80bad-medium-blog1234.i.aivencloud.com:27773/Medium-Blog",
+      url: "postgres://avnadmin:AVNS_B4EwQZ2F07i8hUEr830@pg-3fb80bad-medium-blog1234.i.aivencloud.com:27773/mediumblog",
       entities: [Post, User],
       synchronize: true,
       uuidExtension: 'pgcrypto',

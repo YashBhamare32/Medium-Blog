@@ -12,13 +12,12 @@ import { JwtModule } from '@nestjs/jwt';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5433,
-      username: 'postgres',
-      password: 'Bobby@2032',
-      database: 'mediumblog',
+      url: "postgres://avnadmin:AVNS_B4EwQZ2F07i8hUEr830@pg-3fb80bad-medium-blog1234.i.aivencloud.com:27773/mediumblog",
       entities: [User, Post],
       synchronize: true,
+      ssl: {
+        rejectUnauthorized: false
+    }
     }),
     TypeOrmModule.forFeature([User, Post]),
     JwtModule.register({
