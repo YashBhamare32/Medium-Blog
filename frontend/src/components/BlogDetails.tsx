@@ -27,7 +27,7 @@ export const BlogDetails = ({ authorName, title, content, publishedDate, authorI
         </div>
 
         <div className='flex flex-col'>
-          <div className='text-md'>{authorName}</div>
+          <div className='text-md'>{authorName || "Anonymous"}</div>
           <div className='text-sm font-extralight'>{publishedDate}</div>
         </div>
       </div>
