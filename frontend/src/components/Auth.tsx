@@ -49,9 +49,11 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
             }
         } catch (error: any) {
             if (error.response && (error.response.status === 401 || error.response.status === 400)) {
+                // TODO: remove alerts and send notifications
+                alert(error.response.data.message);
                 console.error("Error during authentication:", error.response.data);
             } else {
-                console.error("Error during authentication:", error.message);
+                console.error("Error during authentication:2", error.message);
             }
         }
     };
