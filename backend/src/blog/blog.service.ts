@@ -101,7 +101,6 @@ export class BlogService {
       if (!blogs) {
         throw new NotFoundException(`Blogs not found`);
       }
-      console.log(blogs);
       return blogs;
     } catch (error) {
       return error.response;
