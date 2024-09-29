@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { AppBar } from '../components/AppBar';
-import { useBlogById, useBlogByUser } from '../hooks/UseBlog-hook';
+import { useBlogById } from '../hooks/UseBlog-hook';
 import { BlogCard } from '../components/BlogCard';
 import { BlogDetails } from '../components/BlogDetails';
 import { useBlogs } from '../hooks/UseBlogs-hook';
@@ -34,6 +34,7 @@ export function Blog() {
       <div className="flex flex-col items-center border-b">
         <div className="max-w-2xl w-full my-4" key={blog.id}>
           <BlogDetails
+            blogId={blog.id}
             title={blog.title}
             content={blog.content}
             authorName={blog.user.name}

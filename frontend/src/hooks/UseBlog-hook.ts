@@ -42,9 +42,9 @@ export const useBlogById = ({id: authorId}) => {
   };
 };
 
-export const useBlogByUser = ({id: authorId}) => {
+export const useBlogsByUser = ({id: authorId}) => {
   const [loading, setLoading] = useState(true);
-  const [blog, setBlog] = useState<PostType[]>();
+  const [blogs, setBlogs] = useState<PostType[]>();
   const [authFailed, setAuthFailed] = useState(false); // New state for auth failure
   const token = Cookies.get('token');
 
@@ -61,7 +61,7 @@ export const useBlogByUser = ({id: authorId}) => {
       }
     })
       .then(res => {
-        setBlog(res.data);
+        setBlogs(res.data);
         setLoading(false);
       })
       .catch(error => {
@@ -73,5 +73,9 @@ export const useBlogByUser = ({id: authorId}) => {
       });
   }, []);
 
-  return blog;
+  return {
+    loading,
+    blogs,
+    authFailed // Return authFailed status
+  };
 };

@@ -67,10 +67,10 @@ export class BlogService {
     }
   }
 
-  async getBlogByUser(authorId: string): Promise<Post> {
+  async getBlogByUser(authorId: string): Promise<Post[]> {
     try {
       console.log(`Attempting to fetch post for id ${authorId}`);
-      const blog = await this.postRepository.findOne({
+      const blog = await this.postRepository.find({
         where: { authorId },
         relations: ['user'],
         select: {

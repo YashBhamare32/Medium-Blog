@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../db/entities/user';
 import { Repository } from 'typeorm';
-import { SigninBodyDto, UserDto } from './dto/user.dto';
+import { SigninBodyDto, UserDto, usernameDto } from './dto/user.dto';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -57,7 +57,7 @@ export class AuthService {
     }
   }
 
-  async getUserById(userId: string) {
-    return this.userRepository.findOne({ where: { id: userId } });
+  async getUserByUsername({ username }: usernameDto) {
+    return this.userRepository.findOne({ where: { username } });
   }
 }

@@ -7,7 +7,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 function afterSignin(token: string, authorName:string) {
-    console.log(token);
     Cookies.set("token", token.split(' ')[0], {
         expires: 7, // Cookie expires in 7 days
         secure: true, // Only send cookie over HTTPS

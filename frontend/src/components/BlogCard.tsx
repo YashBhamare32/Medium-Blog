@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
 interface BlogCardProps {
     authorName: string;
@@ -11,7 +12,7 @@ export const BlogCard = ({
     authorName,
     title,
     content,
-    publishedDate
+    publishedDate,
 }: BlogCardProps)=>{
     return (
         <div className="border-b pb-4 border-slate-200 p-2">
@@ -55,24 +56,10 @@ export function Avatar({name, size='small'}: {name : string, size?:'small'| 'big
 
 export function AppbarUser({ username }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const toggleDropdown = () => {
     setDropdownOpen(prev => !prev);
   };
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('#dropdownUserAvatarButton') && dropdownOpen) {
-        setDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [dropdownOpen]);
+  const name = Cookies.get("authorName");
 
   return (
     <div className="relative">
@@ -85,27 +72,29 @@ export function AppbarUser({ username }) {
         <span className="sr-only">Open user menu</span>
         <Avatar name={username} size={'big'} />
       </button>
-      {/*TODO: fix the navigation links*/}
       {dropdownOpen && (
         <div
           id="dropdownAvatar"
           className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
-          style={{ right: 0,top:40 }} // Align dropdown to the right if needed
+          style={{ right: 0, top: 40 }} // Align dropdown to the right if needed
         >
           <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
             <div>{username}</div>
           </div>
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
             <li>
-              <a href={"/blogs"} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+              <Link to="/blogs" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Dashboard
+              </Link>
             </li>
             <li>
-              <a href={"/profile"} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+              <Link to={`/profile/${name}`} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Profile
+              </Link>
             </li>
           </ul>
           <div className="py-2">
-            {/*TODO: Implement a signout page*/}
-            <Link to={'/blogs'} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+            <Link to="/signout" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
               Sign out
             </Link>
           </div>

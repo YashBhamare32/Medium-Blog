@@ -3,37 +3,17 @@ import { AppBar } from '../components/AppBar';
 import { useProfile } from '../hooks/UseProfile-hook';
 import { useEffect, useState } from 'react';
 import { BACKEND_URL } from '../../config';
+import Cookies from 'js-cookie';
 
 export const Profile = () => {
   const params = useParams();
-  const { loading, user, authFailed } = useProfile({ userId: params.userId });
+  const username = Cookies.get('authorName');
+  const { loading, user, authFailed } = useProfile({ username });
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownOpen(prev => !prev);
   };
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('#dropdownMenuIconButton') && dropdownOpen) {
-        setDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [dropdownOpen]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (authFailed) {
-    return <div>Authentication Failed</div>;
-  }
 
   return (
     <div>
@@ -67,13 +47,12 @@ export const Profile = () => {
             <div
               id="dropdownDots"
               className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
-              style={{ right: 500, bottom: 400 }} // Adjust position as needed
+              style={{ right: 550, top: 135 }} // Adjust position as needed
             >
               <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
                 <li>
                   <button onClick={()=>{
-                    const profileLink = `${BACKEND_URL}/api/v1/profile${params.userId}`; // Adjust to your actual profile link
-                    navigator.clipboard.writeText(profileLink)
+                    navigator.clipboard.writeText(window.location.href )
                       .then(() => {
                         alert('Profile link copied to clipboard!');
                     }).catch(err => {

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 interface BlogCardProps {
   authorName: string;
@@ -7,14 +8,16 @@ interface BlogCardProps {
   publishedDate: string;
 }
 export const BlogDetails = ({ authorName, title, content, publishedDate, authorId })=>{
+  const name = Cookies.get('authorName');
   const navigate = useNavigate();
   return (
     <div className="border-slate-200 p-4">
       <div id={"title"} className="text-5xl font-bold m-4 my-10">
         {title}
       </div>
+
       <div onClick={()=>{
-        navigate(`/profile/${authorId}`)
+        navigate(`/blogs/${authorId}`)
       }} id={"authorId"} className="flex m-4 items-center my-10 hover:cursor-pointer">
         <div className="mr-4">
           <div
@@ -22,6 +25,7 @@ export const BlogDetails = ({ authorName, title, content, publishedDate, authorI
             <span className={`text-sm text-gray-600 tex-md dark:text-gray-300`}>{authorName.toUpperCase()[0]}</span>
           </div>
         </div>
+
         <div className='flex flex-col'>
           <div className='text-md'>{authorName}</div>
           <div className='text-sm font-extralight'>{publishedDate}</div>

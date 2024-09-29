@@ -1,7 +1,9 @@
+import { AppBar } from '../components/AppBar';
+
 export const CreateBlog = () => {
   return(
     <div>
-      Create a blog
+      <AppBar />
     </div>
   )
 }

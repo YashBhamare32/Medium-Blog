@@ -4,15 +4,15 @@ import { OmitType } from '@nestjs/mapped-types';
 
 export class UserDto {
   @IsString()
-  @IsNotEmpty() // Ensures that the username is required and not empty
+  @IsNotEmpty()
   username: string;
 
   @IsString()
-  @IsNotEmpty() // Ensures that the password is required and not empty
+  @IsNotEmpty()
   password: string;
 
   @IsString()
-  @IsNotEmpty() // Ensures that the name is required and not empty
+  @IsNotEmpty()
   name: string;
 
   @IsOptional()
@@ -22,3 +22,9 @@ export class SigninBodyDto extends OmitType(UserDto, [
   'name',
   'posts',
 ] as const) {}
+
+export class usernameDto {
+  @IsNotEmpty()
+  @IsString()
+  username: string;
+}
